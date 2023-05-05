@@ -8,23 +8,25 @@ import com.google.gson.Gson;
 
 public class BookCrawler {
     
-    	private static final String USER_AGENT  = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36";
+    private static final String USER_AGENT  = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36";
 	private static final String SEARCH_URL1 = "https://search.books.com.tw/search/query/key/";
 	private static final String SEARCH_URL2 = "/cat/all";
 	
 	private static class SearchResult {
-		private String title;
-		private String author;
-		private String price;
-		private String link;
-		private String image;
+        private String title;
+	private String language;
+	private String author;
+        private String price;
+	private String link;
+        private String image;
 
-        public SearchResult(String title,String author,String price, String link, String image) {
-           	this.title = title;
+        public SearchResult(String title,String language,String author,String price, String link, String image) {
+            	this.title = title;
+		this.language=language;
 		this.author = author;
 		this.price = price;
-            	this.link = link;
-          	this.image = image;
+          	this.link = link;
+            	this.image = image;
         }
     }
 	
@@ -37,23 +39,26 @@ public class BookCrawler {
 	int i=0;
         for (Element book : books) {
            
- 	        String title = book.select("h4").text();
-           	//System.out.println("Title: " + title);//標題
+ 		String title = book.select("h4").text();
+            	//System.out.println("Title: " + title);//標題
+			
+		String language = book.select("div.type p").first().text();
+           	//System.out.println("Language: " + language);//中文or外文
 			
 		String author = book.select("p.author").text();
-            	// System.out.println("Author: " + author);//作者
+           	// System.out.println("Author: " + author);//作者
 			
 		Element P = book.select("ul.price li").first();
 		String price = P.select("b").last().text();
-           	// System.out.println("Price: " + price);//價錢
+            	// System.out.println("Price: " + price);//價錢
 			
-           	Elements link = book.select("a[href]");
+            	Elements link = book.select("a[href]");
             	//System.out.println("Link: " + link.attr("href"));//購買連結
 
-            	Elements image = book.select("img[src]");
+          	Elements image = book.select("img[src]");
             	//System.out.println("Image: " + image.attr("data-src"));//圖片
 			
-		searchResults[i++] = new SearchResult(title,author,price,link.attr("href"),image.attr("data-src"));//存入
+		searchResults[i++] = new SearchResult(title,language,author,price,link.attr("href"),image.attr("data-src"));//存入
         }
 		return gson.toJson(searchResults);//回傳Json檔
     }
