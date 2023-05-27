@@ -19,7 +19,8 @@ import java.awt.Label;
 public class SearchUi extends JFrame {
 	private JPanel topPanel;//放 搜尋 那行(部分一)
 	private JPanel sequencePanel;//放 排序 那行(部分二)
-	private JPanel outputPanel;//放 資料(部分三)
+	//private JPanel sequencePanel2;//放 排序 第二行(部分三)
+	private JPanel outputPanel;//放 資料(部分四)
 	private JScrollPane outputScrollPane;//讓outputPanel放
 	
 	private Label searchLabel;
@@ -33,6 +34,11 @@ public class SearchUi extends JFrame {
 	private JRadioButton search2;//排序方式二
 	private JRadioButton search3;//排序方式三
 	
+	/*private ButtonGroup searchOptions2;
+	private JRadioButton button1;
+	private JRadioButton button2;
+	private JRadioButton button3;
+	*/
 	private JTextField searchField;//search柏克萊的文字(搜尋格)
 	
 	private JButton mainButton;//切換按鈕
@@ -45,7 +51,7 @@ public class SearchUi extends JFrame {
 	public SearchUi() {
 		// TODO
 		super("搜尋頁面");//標題
-		setLayout(new GridLayout(3,1));//將介面分成三主要部分(FlowLayout()的排版會比較好看些)
+		setLayout(new GridLayout(4,1));//將介面分成三主要部分(FlowLayout()的排版會比較好看些)
 		
 		loginUi = new LoginUi(this);//創建登入跟帳戶的介面
 		accountUi = new AccountUi(this,loginUi);
@@ -67,6 +73,14 @@ public class SearchUi extends JFrame {
 		searchOptions.add(search2);
 		searchOptions.add(search3);
 		
+		/*button1 = new JRadioButton("button1",true);//選擇排序方式的按鈕
+		button2 = new JRadioButton("button2",false);
+		button3 = new JRadioButton("button3",false);
+		searchOptions = new ButtonGroup();
+		searchOptions.add(button1);
+		searchOptions.add(button2);
+		searchOptions.add(button3);
+		*/
 		topPanel = new JPanel();//部分一
 		topPanel.setLayout(new FlowLayout());
 		topPanel.add(mainButton);
@@ -81,8 +95,13 @@ public class SearchUi extends JFrame {
 		sequencePanel.add(search2);
 		sequencePanel.add(search3);
 		
-		
-		outputPanel = new JPanel();//部分三
+		/*sequencePanel2 = new JPanel();//部份三
+		sequencePanel2.setLayout(new FlowLayout());
+		sequencePanel2.add(button1);
+		sequencePanel2.add(button2);
+		sequencePanel2.add(button3);
+		*/
+		outputPanel = new JPanel();//部分四
 		outputPanel.setLayout(new GridLayout(10,4));//**********************數字需要改成(印出資料數+1,4)************
 		picLabel = new JLabel("pictuer");
 		bookLabel = new JLabel("book");
@@ -120,8 +139,9 @@ public class SearchUi extends JFrame {
 		outputScrollPane = new JScrollPane(outputPanel);
 		
 		
-		add(topPanel);//將三個部分放入JFrame
+		add(topPanel);//將四個部分放入JFrame
 		add(sequencePanel);
+		//add(sequencePanel2);
 		add(outputScrollPane);
 		
 		MyEventListner handler = new MyEventListner();//監控 回搜尋頁按鈕、搜尋按鈕、帳戶按鈕、搜尋輸入格
