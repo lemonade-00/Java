@@ -14,8 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class RegisterUi extends JFrame {
-	private JPanel topPanel;//放 "註冊" 那行(部分一)
+public class ChangeUserInfoUi extends JFrame {
+	private JPanel topPanel;//放 "更改用戶資訊" 那行(部分一)
 	private JPanel accountPanel;//放 "帳號:" 那行(部分二)
 	private JPanel passwordPanel;//放 "密碼:" 那行(部份三)
 	private JPanel emailPanel;//放 "email:" 那行(部分四)
@@ -25,23 +25,23 @@ public class RegisterUi extends JFrame {
 	private JTextField passwordField;//密碼輸入格
 	private JTextField emailField;//email輸入格
 	
-	private JLabel loginLabel;//放 "註冊"
+	private JLabel loginLabel;//放 "更改用戶資訊"
 	private JLabel accountLabel;//放 "帳號:"
 	private JLabel passwordLabel;//放 "密碼:"
 	private JLabel emailLabel;//放 "email:"
 
 	private JButton confirmButton;//確認按鈕
 	
-	private LoginUi loginUi;//LoginUi 的 ui
+	private AccountUi accountUi;//AccountUi 的 ui
 
-	public RegisterUi(LoginUi loginUi) {
+	public ChangeUserInfoUi(AccountUi accountUi) {
 		// TODO
-		super("註冊頁面");
+		super("更改用戶資訊頁面");
 		setLayout(new GridLayout(6,1));//將介面分成四主要部分(GridLayout(6,1)排版比較好看)
 		
-		this.loginUi = loginUi;
+		this.accountUi = accountUi;
 		
-		loginLabel = new JLabel("註冊");
+		loginLabel = new JLabel("更改用戶資訊");
 		
 		accountLabel = new JLabel("帳號:");
 		accountField = new JTextField(20);
@@ -91,12 +91,12 @@ public class RegisterUi extends JFrame {
 		// TODO	
 		@Override
 		public void actionPerformed(ActionEvent event){//確認按鈕被按或密碼格按enter
-			JOptionPane.showMessageDialog(null,"註冊頁面: 確認按鈕");
+			JOptionPane.showMessageDialog(null,"更改用戶資訊頁面: 確認按鈕");
 			
 			
 			
-			setVisible(false);//隱藏註冊頁面
-			loginUi.setVisible(true);//跳回搜尋頁面
+			setVisible(false);//隱藏更改用戶資訊頁面
+			accountUi.setVisible(true);//跳回收藏頁面
 		}
 	}
 }

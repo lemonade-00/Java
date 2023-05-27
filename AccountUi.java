@@ -17,46 +17,52 @@ import java.awt.event.ActionEvent;
 import java.awt.Label;
 
 public class AccountUi extends JFrame {
-	private JPanel topPanel;
-	private JPanel sequencePanel;
-	private JPanel outputPanel;
-	private JScrollPane outputScrollPane;
+	private JPanel topPanel;//放 搜尋 那行(部分一)
+	private JPanel sequencePanel;//放 更新按鈕 那行(部分二)
+	private JPanel outputPanel;//放 資料(部分三)
+	private JScrollPane outputScrollPane;//讓outputPanel放
 	
-	private Label searchLabel;
-	private JLabel picLabel;
-	private JLabel bookLabel;
-	private JLabel libraryLabel;
-	private JLabel buttonLabel;
+	private Label searchLabel;//"your collect:"
+	private JLabel picLabel;//資料第一排的文字 pictuer
+	private JLabel bookLabel;//資料第一排的文字 book
+	private JLabel libraryLabel;//資料第一排的文字 library
+	private JLabel buttonLabel;//資料第一排的文字 button
 	
-	private JButton refreshButton;
-	private JButton clearButton;
+	private JButton refreshButton;//更新按鈕
+	private JButton clearButton;//清除按鈕
 	
-	private JTextField searchField;
+	private JTextField searchField;//search收藏的文字(搜尋格)
 	
-	private JButton mainButton;
-	private JButton searchButton;
-	private JButton accountButton;
+	private JButton mainButton;//切換按鈕
+	private JButton searchButton;//搜尋按鈕
+	private JButton accountButton;//更改用戶資訊按鈕
+	private JButton logoutButton;//登出按鈕
 	
-	private SearchUi searchUi;
+	private SearchUi searchUi;//SearchUi 的 ui
+	private LoginUi loginUi;
+	private ChangeUserInfoUi changeUserInfoUi;//ChangeUserInfoUi 的 ui
+	
 
-	public AccountUi(SearchUi searchUi) {
+	public AccountUi(SearchUi searchUi,LoginUi loginUi) {
 		// TODO
-		super("account ui test");
+		super("收藏頁面");
 		setLayout(new GridLayout(3,1));//將介面分成三主要部分(FlowLayout()的排版會比較好看些)
 		
 		this.searchUi = searchUi;
+		this.loginUi = loginUi;
+		changeUserInfoUi = new ChangeUserInfoUi(this);
 		
-		mainButton = new JButton("main");
+		mainButton = new JButton("切換至搜尋頁面");
 		searchField = new JTextField("input search",20);
 		
-		searchButton = new JButton("search");
+		searchButton = new JButton("搜尋");
+		accountButton = new JButton("更改用戶資訊");
+		logoutButton = new JButton("登出");
 		
-		accountButton = new JButton("account");
+		searchLabel = new Label("你的收藏:                 										");
 		
-		searchLabel = new Label("your collect:                 										");
-		
-		refreshButton = new JButton("refresh");
-		clearButton = new JButton("clear");
+		refreshButton = new JButton("更新");
+		clearButton = new JButton("清除");
 		
 		topPanel = new JPanel();//部分一
 		topPanel.setLayout(new FlowLayout());
@@ -64,6 +70,7 @@ public class AccountUi extends JFrame {
 		topPanel.add(searchField);
 		topPanel.add(searchButton);
 		topPanel.add(accountButton);
+		topPanel.add(logoutButton);
 		
 		sequencePanel = new JPanel();//部分二
 		sequencePanel.setLayout(new FlowLayout());
@@ -72,7 +79,7 @@ public class AccountUi extends JFrame {
 		sequencePanel.add(clearButton);
 		
 		
-		outputPanel = new JPanel();//部分三(未完成)
+		outputPanel = new JPanel();//部分三
 		outputPanel.setLayout(new GridLayout(10,4));//**********************數字需要改成(印出資料數+1,4)************
 		picLabel = new JLabel("pictuer");
 		bookLabel = new JLabel("book");
@@ -114,10 +121,11 @@ public class AccountUi extends JFrame {
 		add(sequencePanel);
 		add(outputScrollPane);
 		
-		MyEventListner handler = new MyEventListner();//監控 回搜尋頁面按鈕、搜尋按鈕、帳戶按鈕、搜尋輸入格、更新按鈕、清除按鈕
+		MyEventListner handler = new MyEventListner();//監控 切換按鈕、搜尋按鈕、更改用戶資訊按鈕、登出按鈕、搜尋輸入格、更新按鈕、清除按鈕
 		mainButton.addActionListener(handler);
 		searchButton.addActionListener(handler);
 		accountButton.addActionListener(handler);
+		logoutButton.addActionListener(handler);
 		refreshButton.addActionListener(handler);
 		clearButton.addActionListener(handler);
 		searchField.addActionListener(handler);
@@ -134,19 +142,27 @@ public class AccountUi extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent event){
 			if(event.getSource()==searchButton || event.getSource()==searchField){//搜尋被按或輸入格按enter
-				JOptionPane.showMessageDialog(null,"accountUi: search");
+				JOptionPane.showMessageDialog(null,"收藏頁面: 搜尋按鈕 or 搜尋格");
 			}
-			else if(event.getSource()==accountButton){//這按鈕好像沒要做的事
-				JOptionPane.showMessageDialog(null,"accountUi: account");
+			else if(event.getSource()==accountButton){//更改用戶資訊按鈕被按
+				JOptionPane.showMessageDialog(null,"收藏頁面: 更改用戶資訊");
+				changeUserInfoUi.setVisible(true);//跳出更改用戶資訊畫面
+				setVisible(false);//隱藏收藏頁面
 			}
 			else if(event.getSource()==refreshButton){//更新按鈕被按
-				JOptionPane.showMessageDialog(null,"accountUi: refresh");
+				JOptionPane.showMessageDialog(null,"收藏頁面: 更新按鈕");
 			}
 			else if(event.getSource()==clearButton){//清除按鈕被按
-				JOptionPane.showMessageDialog(null,"accountUi: clear");
+				JOptionPane.showMessageDialog(null,"收藏頁面: 清除按鈕");
 			}
-			else if(event.getSource()==mainButton){
-				JOptionPane.showMessageDialog(null,"accountUi: main");
+			else if(event.getSource()==mainButton){//切換按鈕被按
+				JOptionPane.showMessageDialog(null,"收藏頁面: 切換按鈕");
+				searchUi.setVisible(true);//跳回搜尋頁面
+				setVisible(false);//隱藏收藏頁面
+			}
+			else if(event.getSource()==logoutButton){//登出按鈕被按
+				JOptionPane.showMessageDialog(null,"收藏頁面: 登出按鈕");
+				loginUi.setLog_in_or_Not(0);//登出
 				searchUi.setVisible(true);//跳回搜尋頁面
 				setVisible(false);//隱藏收藏頁面
 			}

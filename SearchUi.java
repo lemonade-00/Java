@@ -17,47 +17,47 @@ import java.awt.event.ActionEvent;
 import java.awt.Label;
 
 public class SearchUi extends JFrame {
-	private JPanel topPanel;
-	private JPanel sequencePanel;
-	private JPanel outputPanel;
-	private JScrollPane outputScrollPane;
+	private JPanel topPanel;//放 搜尋 那行(部分一)
+	private JPanel sequencePanel;//放 排序 那行(部分二)
+	private JPanel outputPanel;//放 資料(部分三)
+	private JScrollPane outputScrollPane;//讓outputPanel放
 	
 	private Label searchLabel;
-	private JLabel picLabel;
-	private JLabel bookLabel;
-	private JLabel libraryLabel;
-	private JLabel buttonLabel;
+	private JLabel picLabel;//資料第一排的文字 pictuer
+	private JLabel bookLabel;//資料第一排的文字 book
+	private JLabel libraryLabel;//資料第一排的文字 library
+	private JLabel buttonLabel;//資料第一排的文字 button
 	
-	private ButtonGroup searchOptions;
-	private JRadioButton search1;
-	private JRadioButton search2;
-	private JRadioButton search3;
+	private ButtonGroup searchOptions;//排序方式的按鈕組
+	private JRadioButton search1;//排序方式一
+	private JRadioButton search2;//排序方式二
+	private JRadioButton search3;//排序方式三
 	
-	private JTextField searchField;
+	private JTextField searchField;//search柏克萊的文字(搜尋格)
 	
-	private JButton mainButton;
-	private JButton searchButton;
-	private JButton accountButton;
+	private JButton mainButton;//切換按鈕
+	private JButton searchButton;//搜尋按鈕
+	private JButton accountButton;//帳戶按鈕
 	
-	private LoginUi loginUi;
-	private AccountUi accountUi;
+	private LoginUi loginUi;//LoginUi 的 ui
+	private AccountUi accountUi;//AccountUi 的 ui
 
 	public SearchUi() {
 		// TODO
-		super("search ui test");//標題
+		super("搜尋頁面");//標題
 		setLayout(new GridLayout(3,1));//將介面分成三主要部分(FlowLayout()的排版會比較好看些)
 		
 		loginUi = new LoginUi(this);//創建登入跟帳戶的介面
-		accountUi = new AccountUi(this);
+		accountUi = new AccountUi(this,loginUi);
 		
-		mainButton = new JButton("main");
+		mainButton = new JButton("切換至收藏頁面");
 		searchField = new JTextField("input search",20);
 		
-		searchButton = new JButton("search");
+		searchButton = new JButton("搜尋");
 		
-		accountButton = new JButton("account");
+		accountButton = new JButton("帳戶");
 		
-		searchLabel = new Label("your search:                 										");
+		searchLabel = new Label("你的搜尋:                 										");
 		
 		search1 = new JRadioButton("search1",true);//選擇排序方式的按鈕
 		search2 = new JRadioButton("search2",false);
@@ -82,7 +82,7 @@ public class SearchUi extends JFrame {
 		sequencePanel.add(search3);
 		
 		
-		outputPanel = new JPanel();//部分三(未完成)
+		outputPanel = new JPanel();//部分三
 		outputPanel.setLayout(new GridLayout(10,4));//**********************數字需要改成(印出資料數+1,4)************
 		picLabel = new JLabel("pictuer");
 		bookLabel = new JLabel("book");
@@ -124,7 +124,7 @@ public class SearchUi extends JFrame {
 		add(sequencePanel);
 		add(outputScrollPane);
 		
-		MyEventListner handler = new MyEventListner();//監控 搜尋按鈕、帳戶按鈕、搜尋輸入格
+		MyEventListner handler = new MyEventListner();//監控 回搜尋頁按鈕、搜尋按鈕、帳戶按鈕、搜尋輸入格
 		mainButton.addActionListener(handler);
 		searchButton.addActionListener(handler);
 		accountButton.addActionListener(handler);
@@ -141,20 +141,28 @@ public class SearchUi extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent event){
 			if(event.getSource()==searchField || event.getSource()==searchButton){//搜尋被按或輸入格按enter
-				JOptionPane.showMessageDialog(null,"searchUi: search");
+				JOptionPane.showMessageDialog(null,"搜尋頁面: 搜尋按鈕 or 搜尋格");
 			}
 			else if(event.getSource()==accountButton){//帳戶按鈕被按
-				JOptionPane.showMessageDialog(null,"searchUi: account");
+				JOptionPane.showMessageDialog(null,"搜尋頁面: 帳戶按鈕");
 				if(loginUi.getLog_in_or_Not()== 0){//未登入
 					loginUi.setVisible(true);//跳出登入畫面
+				}
+				else{
+					accountUi.setVisible(true);//跳出修改帳戶頁面
+				}
+				setVisible(false);//隱藏搜尋頁面
+			}
+			else if(event.getSource()==mainButton){//切換按鈕
+				JOptionPane.showMessageDialog(null,"搜尋頁面: 切換按鈕");
+				if(loginUi.getLog_in_or_Not()== 0){//未登入
+					loginUi.setVisible(true);//跳出登入畫面
+					JOptionPane.showMessageDialog(null,"請先登入");
 				}
 				else{
 					accountUi.setVisible(true);//跳出收藏頁面
 				}
 				setVisible(false);//隱藏搜尋頁面
-			}
-			else if(event.getSource()==mainButton){
-				JOptionPane.showMessageDialog(null,"searchUi: main");
 			}
 		}
 	}
