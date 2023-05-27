@@ -7,6 +7,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -17,9 +19,14 @@ import java.awt.Label;
 public class AccountUi extends JFrame {
 	private JPanel topPanel;
 	private JPanel sequencePanel;
-	private JScrollPane outputPanel;
+	private JPanel outputPanel;
+	private JScrollPane outputScrollPane;
 	
 	private Label searchLabel;
+	private JLabel picLabel;
+	private JLabel bookLabel;
+	private JLabel libraryLabel;
+	private JLabel buttonLabel;
 	
 	private JButton refreshButton;
 	private JButton clearButton;
@@ -65,13 +72,47 @@ public class AccountUi extends JFrame {
 		sequencePanel.add(clearButton);
 		
 		
-		outputPanel = new JScrollPane();//部分三(未完成)
-		
+		outputPanel = new JPanel();//部分三(未完成)
+		outputPanel.setLayout(new GridLayout(10,4));//**********************數字需要改成(印出資料數+1,4)************
+		picLabel = new JLabel("pictuer");
+		bookLabel = new JLabel("book");
+		libraryLabel = new JLabel("library");
+		buttonLabel = new JLabel("button");
+		outputPanel.add(picLabel);
+		outputPanel.add(bookLabel);
+		outputPanel.add(libraryLabel);
+		outputPanel.add(buttonLabel);
+		for(int i=0;i<9;i++){
+			ImageIcon img = new  ImageIcon("test_pic.png");//test_pic.png為測試 設定圖片
+			JLabel pictureInfoLabel = new JLabel();//存照片
+			pictureInfoLabel.setIcon(img);
+			JLabel bookInfoLabel = new JLabel();//存柏克萊文字
+			JLabel libraryInfoLabel = new JLabel();//存圖書館文字
+			
+			String bookInfo = "<html>"+"書名:"+ "<br>" +"語言:"+"</html>";//設定柏克萊文字輸出
+			bookInfoLabel.setText(bookInfo);
+			
+			String libraryInfo = "<html>"+"書名:"+ "<br>" +"語言:"+"</html>";//設定圖書館文字輸出
+			libraryInfoLabel.setText(libraryInfo);
+			
+			final String name = String.format("%03d", i + 1);//button的命名
+            JButton button = new JButton(name);
+            button.addActionListener(new ActionListener() {//各個button的監控
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(AccountUi.this,"You click button is " + name);
+                }
+            });
+			outputPanel.add(pictureInfoLabel);
+			outputPanel.add(bookInfoLabel);
+			outputPanel.add(libraryInfoLabel);
+            outputPanel.add(button);
+		}
+		outputScrollPane = new JScrollPane(outputPanel);
 		
 		
 		add(topPanel);//將三個部分放入JFrame
 		add(sequencePanel);
-		add(outputPanel);
+		add(outputScrollPane);
 		
 		MyEventListner handler = new MyEventListner();//監控 回搜尋頁面按鈕、搜尋按鈕、帳戶按鈕、搜尋輸入格、更新按鈕、清除按鈕
 		mainButton.addActionListener(handler);
@@ -83,7 +124,7 @@ public class AccountUi extends JFrame {
 		
 		setResizable(false);//使用者不能調整視窗大小
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//只要按右上角X就會停止程式
-		setSize(500, 500);
+		setSize(1000, 1000);
 		setVisible(false);
 	}
 
