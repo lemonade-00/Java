@@ -25,7 +25,8 @@ public class AccountUi extends JFrame {
 	private JButton clearButton;
 	
 	private JTextField searchField;
-
+	
+	private JButton mainButton;
 	private JButton searchButton;
 	private JButton accountButton;
 	
@@ -38,6 +39,7 @@ public class AccountUi extends JFrame {
 		
 		this.searchUi = searchUi;
 		
+		mainButton = new JButton("main");
 		searchField = new JTextField("input search",20);
 		
 		searchButton = new JButton("search");
@@ -51,6 +53,7 @@ public class AccountUi extends JFrame {
 		
 		topPanel = new JPanel();//部分一
 		topPanel.setLayout(new FlowLayout());
+		topPanel.add(mainButton);
 		topPanel.add(searchField);
 		topPanel.add(searchButton);
 		topPanel.add(accountButton);
@@ -70,7 +73,8 @@ public class AccountUi extends JFrame {
 		add(sequencePanel);
 		add(outputPanel);
 		
-		MyEventListner handler = new MyEventListner();//監控 搜尋按鈕、帳戶按鈕、搜尋輸入格、更新按鈕、清除按鈕
+		MyEventListner handler = new MyEventListner();//監控 回搜尋頁面按鈕、搜尋按鈕、帳戶按鈕、搜尋輸入格、更新按鈕、清除按鈕
+		mainButton.addActionListener(handler);
 		searchButton.addActionListener(handler);
 		accountButton.addActionListener(handler);
 		refreshButton.addActionListener(handler);
@@ -90,8 +94,6 @@ public class AccountUi extends JFrame {
 		public void actionPerformed(ActionEvent event){
 			if(event.getSource()==searchButton || event.getSource()==searchField){//搜尋被按或輸入格按enter
 				JOptionPane.showMessageDialog(null,"accountUi: search");
-				searchUi.setVisible(true);//跳回搜尋頁面
-				setVisible(false);//隱藏收藏頁面
 			}
 			else if(event.getSource()==accountButton){//這按鈕好像沒要做的事
 				JOptionPane.showMessageDialog(null,"accountUi: account");
@@ -101,6 +103,11 @@ public class AccountUi extends JFrame {
 			}
 			else if(event.getSource()==clearButton){//清除按鈕被按
 				JOptionPane.showMessageDialog(null,"accountUi: clear");
+			}
+			else if(event.getSource()==mainButton){
+				JOptionPane.showMessageDialog(null,"accountUi: main");
+				searchUi.setVisible(true);//跳回搜尋頁面
+				setVisible(false);//隱藏收藏頁面
 			}
 		}
 	}

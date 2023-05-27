@@ -7,6 +7,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -17,7 +19,8 @@ import java.awt.Label;
 public class SearchUi extends JFrame {
 	private JPanel topPanel;
 	private JPanel sequencePanel;
-	private JScrollPane outputPanel;
+	private JPanel outputPanel;
+	private JScrollPane outputScrollPane;
 	
 	private Label searchLabel;
 	
@@ -27,7 +30,8 @@ public class SearchUi extends JFrame {
 	private JRadioButton search3;
 	
 	private JTextField searchField;
-
+	
+	private JButton mainButton;
 	private JButton searchButton;
 	private JButton accountButton;
 	
@@ -42,6 +46,7 @@ public class SearchUi extends JFrame {
 		loginUi = new LoginUi(this);//創建登入跟帳戶的介面
 		accountUi = new AccountUi(this);
 		
+		mainButton = new JButton("main");
 		searchField = new JTextField("input search",20);
 		
 		searchButton = new JButton("search");
@@ -60,6 +65,7 @@ public class SearchUi extends JFrame {
 		
 		topPanel = new JPanel();//部分一
 		topPanel.setLayout(new FlowLayout());
+		topPanel.add(mainButton);
 		topPanel.add(searchField);
 		topPanel.add(searchButton);
 		topPanel.add(accountButton);
@@ -71,14 +77,37 @@ public class SearchUi extends JFrame {
 		sequencePanel.add(search2);
 		sequencePanel.add(search3);
 		
-		outputPanel = new JScrollPane();//部分三(未完成)
+		
+		outputPanel = new JPanel();//部分三(未完成)
+		outputPanel.setLayout(new GridLayout(2,3));
+		for(int i=0;i<1;i++){
+			ImageIcon img = new  ImageIcon("");//test_pic.jpg為測試 設定圖片
+			JLabel outputLabel = new JLabel();
+			JLabel nextLineLabel = new JLabel();
+			nextLineLabel.setText("<html><br>------------------------------------------------</html>");
+			outputLabel.setIcon(img);
+			String string = "<html>"+"書名:"+ "<br>" +"語言:"+"</html>";//設定文字輸出
+			outputLabel.setText(string);
+			final String name = String.format("%03d", i + 1);//button的命名
+            JButton button = new JButton(name);
+            button.addActionListener(new ActionListener() {//各個button的監控
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(SearchUi.this,"You click button is " + name);
+                }
+            });
+			outputPanel.add(outputLabel);
+            outputPanel.add(button);
+			outputPanel.add(nextLineLabel);
+		}
+		outputScrollPane = new JScrollPane(outputPanel);
 		
 		
 		add(topPanel);//將三個部分放入JFrame
 		add(sequencePanel);
-		add(outputPanel);
+		add(outputScrollPane);
 		
 		MyEventListner handler = new MyEventListner();//監控 搜尋按鈕、帳戶按鈕、搜尋輸入格
+		mainButton.addActionListener(handler);
 		searchButton.addActionListener(handler);
 		accountButton.addActionListener(handler);
 		searchField.addActionListener(handler);
@@ -105,6 +134,9 @@ public class SearchUi extends JFrame {
 					accountUi.setVisible(true);//跳出收藏頁面
 				}
 				setVisible(false);//隱藏搜尋頁面
+			}
+			else if(event.getSource()==mainButton){
+				JOptionPane.showMessageDialog(null,"searchUi: main");
 			}
 		}
 	}
