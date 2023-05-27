@@ -14,14 +14,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class LoginUi extends JFrame {
+public class RegisterUi extends JFrame {
 	private int log_in_or_Not;
 	
 	private JPanel topPanel;
 	private JPanel accountPanel;
 	private JPanel passwordPanel;
 	private JPanel confirmPanel;
-	private JPanel registerPanel;
 	
 	private JTextField accountField;
 	private JPasswordField passwordField;
@@ -31,21 +30,17 @@ public class LoginUi extends JFrame {
 	private JLabel passwordLabel;
 
 	private JButton confirmButton;
-	private JButton registerButton;
 	
-	private SearchUi searchUi;
-	private RegisterUi registerUi;
+	private LoginUi loginUi;
 
-	public LoginUi(SearchUi searchUi) {
+	public RegisterUi(LoginUi loginUi) {
 		// TODO
-		super("login ui test");
+		super("Register ui test");
 		setLayout(new GridLayout(6,1));//將介面分成四主要部分(GridLayout(6,1)排版比較好看)
 		
-		this.searchUi = searchUi;
-		registerUi = new RegisterUi(this);
-		this.log_in_or_Not = 0;//未登入:0 已登入:1
+		this.loginUi = loginUi;
 		
-		loginLabel = new JLabel("Login");
+		loginLabel = new JLabel("Register");
 		
 		accountLabel = new JLabel("account:");
 		accountField = new JTextField(20);
@@ -53,7 +48,6 @@ public class LoginUi extends JFrame {
 		passwordField = new JPasswordField(20);
 		
 		confirmButton = new JButton("confirm");
-		registerButton = new JButton("register");
 		
 		topPanel = new JPanel();//部分一
 		topPanel.add(loginLabel);
@@ -69,19 +63,14 @@ public class LoginUi extends JFrame {
 		confirmPanel = new JPanel();//部份四
 		confirmPanel.add(confirmButton);
 		
-		registerPanel = new JPanel();//部份五
-		registerPanel.add(registerButton);
-		
 		add(topPanel);//將四個部分放入JFrame
 		add(accountPanel);
 		add(passwordPanel);
 		add(confirmPanel);
-		add(registerPanel);
 		
-		MyEventListner handler = new MyEventListner();//監控 確認按鈕、密碼輸入格、註冊按鈕
+		MyEventListner handler = new MyEventListner();//監控 確認按鈕、密碼輸入格
 		passwordField.addActionListener(handler);
 		confirmButton.addActionListener(handler);
-		registerButton.addActionListener(handler);
 		
 		setResizable(false);//使用者不能調整視窗大小
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//只要按右上角X就會停止程式
@@ -94,27 +83,12 @@ public class LoginUi extends JFrame {
 		// TODO	
 		@Override
 		public void actionPerformed(ActionEvent event){//確認按鈕被按或密碼格按enter
-			if(event.getSource()==confirmButton){
-				JOptionPane.showMessageDialog(null,"loginUi: confirm");
+			JOptionPane.showMessageDialog(null,"register: confirm");
 			
-			setLog_in_or_Not(1);//假設已登入
+			
 			
 			setVisible(false);//隱藏登入頁面
-			searchUi.setVisible(true);//跳回搜尋頁面
-			}
-			else if(event.getSource()==registerButton){
-				JOptionPane.showMessageDialog(null,"loginUi: register");
-				setVisible(false);
-				registerUi.setVisible(true);
-			}
+			loginUi.setVisible(true);//跳回搜尋頁面
 		}
-	}
-	
-	public void setLog_in_or_Not(int num){
-		this.log_in_or_Not = num;
-	}
-	
-	public int getLog_in_or_Not(){
-		return this.log_in_or_Not;
 	}
 }
